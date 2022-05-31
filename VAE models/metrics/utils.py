@@ -1,3 +1,24 @@
+# coding=utf-8
+# Copyright 2018 The DisentanglementLib Authors.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# CHANGES:
+# - converted from tensorflow to pytorch
+# - removed gin config
+# - uses disent objects and classes
+# - renamed functions
+
 """
 Utility functions that are useful for the different metrics.
 """
@@ -16,7 +37,7 @@ import numpy as np
 import sklearn
 from tqdm import tqdm
 
-from disent.dataset import DisentDataset
+from _base import DisentDataset
 from disent.util import to_numpy
 from disent.util.function import wrapped_partial
 
@@ -119,6 +140,7 @@ def generate_batch_factor_code(
     with tqdm(total=num_points, disable=not show_progress) as bar:
         while i < num_points:
             num_points_iter = min(num_points - i, batch_size)
+            print("!!!",type(dataset))
             current_observations, current_factors = dataset.dataset_sample_batch_with_factors(num_points_iter, mode='input')
             if i == 0:
                 factors = current_factors

@@ -8,8 +8,8 @@ from tqdm import tqdm
 from torchvision.utils import save_image, make_grid
 import logging
 
-logging.basicConfig(filename='dci.log', level=logging.DEBUG)
-with open('dci.log','w'):
+logging.basicConfig(filename='dci1.log', level=logging.DEBUG)
+with open('dci1.log','w'):
     pass
 
 # hyperparameters -------------------------------------------------------------
@@ -29,23 +29,6 @@ lr = 1e-3 # 学习率
 epochs = 1
 
 beta = 4
-# load dataset ----------------------------------------------------------------
-from torchvision.datasets import MNIST
-import torchvision.transforms as transforms
-from torch.utils.data import DataLoader
-
-
-mnist_transform = transforms.Compose([
-        transforms.ToTensor(),
-])
-
-kwargs = {'num_workers': 0, 'pin_memory': True} 
-
-train_dataset = MNIST(dataset_path, transform=mnist_transform, train=True, download=True)
-test_dataset  = MNIST(dataset_path, transform=mnist_transform, train=False, download=True)
-
-train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True, **kwargs)
-test_loader  = DataLoader(dataset=test_dataset,  batch_size=batch_size, shuffle=False, **kwargs)
 
 # Define model -----------------------------------------------------------------
 
@@ -116,77 +99,13 @@ decoder = Decoder(latent_dim=latent_dim, hidden_dim = hidden_dim, output_dim = x
 
 model = Model(Encoder=encoder, Decoder=decoder).to(DEVICE)
 
-# Define Loss ------------------------------------------------------------------
-from torch.optim import Adam
-
-BCE_loss = nn.BCELoss()
-
-def loss_function(x, x_hat, mean, log_var):
-    reproduction_loss = nn.functional.binary_cross_entropy(x_hat, x, reduction='sum')
-    KLD      = - 0.5 * torch.sum(1 + log_var - mean.pow(2) - log_var.exp())
-
-    return reproduction_loss + beta * KLD
-
-
-optimizer = Adam(model.parameters(), lr=lr)
-
-# Training ---------------------------------------------------------------------
-print("Start training VAE...")
-logging.info('Start training VAE...')
-model.train()
-
-for epoch in range(epochs):
-    overall_loss = 0
-    for batch_idx, (x, _) in enumerate(train_loader):
-        x = x.view(batch_size, x_dim)
-        x = x.to(DEVICE)
-
-        optimizer.zero_grad()
-
-        x_hat, mean, log_var = model(x)
-        loss = loss_function(x, x_hat, mean, log_var)
-        
-        overall_loss += loss.item()
-        
-        loss.backward()
-        optimizer.step()
-        
-    print("\tEpoch", epoch + 1, "complete!", "\tAverage Loss: ", overall_loss / (batch_idx*batch_size))
-    msg = "Epoch" + str(epoch + 1) + "complete!" + "\tAverage Loss: " + str(overall_loss / (batch_idx*batch_size))
-    logging.info(msg)
-print("Finish!!")
-logging.info("Finish!!")
-
 # Save and Load ----------------------------------------------------------------
-# torch.save(model,"VAE")
+
 model = torch.load("VAE")
-
-
-# image generation (from dataset) ----------------------------------------------
-import matplotlib.pyplot as plt
-model.eval()
-
-with torch.no_grad():
-    for batch_idx, (x, _) in enumerate(tqdm(test_loader)):
-        x = x.view(batch_size, x_dim)
-        x = x.to(DEVICE)
-        
-        x_hat, _, _ = model(x)
-
-
-        break
-
-def show_image(x, idx):
-    x = x.view(batch_size, 28, 28)
-
-    fig = plt.figure()
-    plt.imshow(x[idx].cpu().numpy())
-
-
-show_image(x, idx=0) # original
-show_image(x_hat, idx=0) # generated
-
-#plt.show()
+encoder = torch.load("encoder")
+decoder = torch.load("decoder")
+print("loading complete...")
+logging.info("loading complete...")
 
 # image generation (from noise) -------------------------------------------------
 with torch.no_grad():
@@ -194,41 +113,53 @@ with torch.no_grad():
     generated_images = decoder(noise)
 
 save_image(generated_images.view(batch_size, 1, 28, 28), 'VAE model/generated_sample.png')
-
-show_image(generated_images, idx=12)
-show_image(generated_images, idx=0)
-show_image(generated_images, idx=1)
-show_image(generated_images, idx=10)
-show_image(generated_images, idx=20)
-show_image(generated_images, idx=50)
-#plt.show()
+print("Image generation complete...")
+logging.info("Image generation complete...")
 
 
 
-'''
-dci
-'''
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''                             DCI Evaluation                                         '''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 import scipy
 import scipy.stats
-logging.info('Training is completed')
-def metricDCI(
-    dataset:dataset_path,
+from torchvision.datasets import MNIST
+import torchvision.transforms as transforms
+from torch.utils.data import DataLoader
+import utils
+from _base import DisentDataset
+print(type(DisentDataset))
+mnist_transform = transforms.Compose([
+        transforms.ToTensor(),
+])
+
+def metric_dci(
+    dataset: DisentDataset,
     representation_function: callable,
     num_train: int = 10000,
     num_test: int = 5000,
     batch_size: int = 16,
-    boots_mode = 'sklearn',
+    boost_mode = 'sklearn',
     show_progress = False, 
     ):
     logging.info("Generating training set. -----For DCI")
+    print(123)
+    print("!",type(dataset))
+    mus_train, ys_train = utils.generate_batch_factor_code(dataset, representation_function, num_train, batch_size, show_progress=False)
+    assert mus_train.shape[1] == num_train
+    assert ys_train.shape[1] == num_train
+    mus_test, ys_test = utils.generate_batch_factor_code(dataset, representation_function, num_test, batch_size, show_progress=False)
 
 
     logging.info("Computing DCI score.")
+    scores = compute_dci(mus_train, ys_train, mus_test, ys_test, boost_mode=boost_mode, show_progress=show_progress)
     
 
+    return scores["dci.disentanglement"]
 
-    return None
-def computeDCI(mus_train, ys_train, mus_test, ys_test, boost_mode='sklearn', show_progress=False):
+def compute_dci(mus_train, ys_train, mus_test, ys_test, boost_mode='sklearn', show_progress=False):
     """Computes score based on both training and testing codes and factors."""
     importance_matrix, train_err, test_err = compute_importance_gbt(mus_train, ys_train, mus_test, ys_test, boost_mode=boost_mode, show_progress=show_progress)
     assert importance_matrix.shape[0] == mus_train.shape[0]
@@ -286,3 +217,5 @@ def completeness(importance_matrix):
         importance_matrix = np.ones_like(importance_matrix)
     factor_importance = importance_matrix.sum(axis=0) / importance_matrix.sum()
     return np.sum(per_factor * factor_importance)
+
+print(metric_dci(dataset=dataset_path, representation_function=callable))
