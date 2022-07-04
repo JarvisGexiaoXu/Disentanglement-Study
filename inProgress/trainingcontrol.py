@@ -28,15 +28,34 @@ model=AutoEncoder(
         encoder=EncoderConv64(x_shape=data.x_shape, z_size=6, z_multiplier=2),
         decoder=DecoderConv64(x_shape=data.x_shape, z_size=6),
     )
-cfg=BetaVae.cfg(optimizer='adam', optimizer_kwargs=dict(lr=1e-3), loss_reduction='mean_sum', beta=1)
-# create the pytorch lightning system
-module: pl.LightningModule = BetaVae(model, cfg)
-
 
 
 # train the model
+cfg=BetaVae.cfg(optimizer='adam', optimizer_kwargs=dict(lr=1e-3), loss_reduction='mean_sum', beta=1)
+module: pl.LightningModule = BetaVae(model, cfg)
 trainer = pl.Trainer(logger=False, checkpoint_callback=False, max_steps=1000, fast_dev_run=is_test_run())
+beta = 4
+print(len(dataloader))
+for i in range(14):
+    #beta *= 0.8
+    cfg=BetaVae.cfg(optimizer='adam', optimizer_kwargs=dict(lr=1e-3), loss_reduction='mean_sum', beta=beta)
+    module: pl.LightningModule = BetaVae(module._model, cfg)
+    trainer = pl.Trainer(logger=False, checkpoint_callback=False, max_steps=1000, fast_dev_run=is_test_run())
+    trainer.fit(module, dataloader[1])
+    print("train", i+1, "finish, β = ", beta)
+
+    get_repr = lambda x: module.encode(x.to(module.device))
+
+    a_results = {
+            **metric_dci(dataset, get_repr, num_train=10 if is_test_run() else 1000, num_test=5 if is_test_run() else 500, boost_mode='sklearn'),
+            **metric_mig(dataset, get_repr, num_train=20 if is_test_run() else 2000),
+            **metric_sap(dataset, get_repr),
+        }
+    print("eval", i+1, ":")
+    print(a_results) 
+'''
 trainer.fit(module, dataloader[0])
+
 print("train1 finish")
 
 get_repr = lambda x: module.encode(x.to(module.device))
@@ -65,5 +84,5 @@ a_results = {
     }
 print("eval2:")
 print(a_results) 
-
+'''
 # TODO 把训练过程写成loop
