@@ -1,2 +1,2 @@
 trainingcontrol.py 
-# TODO 把训练过程写成loop
+# TODO write training process into loop
