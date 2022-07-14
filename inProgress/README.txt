@@ -6,3 +6,7 @@ trainingcallback.py
 
 metricValidation.py
 # TODO ASAP validate metrics between beta-VAE and VAE
+
+# TODO set up experiments
+  # TODO original training as control group and 
+  # TODO beta controled training as experimental group.
