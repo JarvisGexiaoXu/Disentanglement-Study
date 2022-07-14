@@ -1,5 +1,8 @@
 trainingcontrol.py 
 # DONE write training process into loop
 
+trainingcallback.py
+# DONE have control over beta value during the training process
+
 metricValidation.py
-# TODO validate metrics between beta-VAE and VAE
+# TODO ASAP validate metrics between beta-VAE and VAE
