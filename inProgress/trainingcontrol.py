@@ -8,7 +8,16 @@ from disent.model.ae import DecoderConv64, EncoderConv64
 from disent.dataset.transform import ToImgTensorF32
 from disent.util import is_test_run  # you can ignore and remove this
 from disent.metrics import metric_dci, metric_mig, metric_factor_vae, metric_sap 
+import trainingcallback as tc
 
+# for callbacks use only
+from typing import Any, Dict, List, Optional, Type
+
+import torch
+from torch.optim import Optimizer
+
+import pytorch_lightning as pl
+from pytorch_lightning.utilities.types import STEP_OUTPUT
 
 # prepare the data      length: 75000
 data = XYObjectData()
@@ -33,48 +42,15 @@ model=AutoEncoder(
 # train the model
 cfg=BetaVae.cfg(optimizer='adam', optimizer_kwargs=dict(lr=1e-3), loss_reduction='mean_sum', beta=1)
 module: pl.LightningModule = BetaVae(model, cfg)
-trainer = pl.Trainer(logger=False, checkpoint_callback=False, max_steps=1000, fast_dev_run=is_test_run())
+print('beta = ', module.cfg.beta)
+#print(type(module))
+trainer = pl.Trainer(logger=False, callbacks=[tc.betaControlCallback()],checkpoint_callback=False, max_steps=3000, fast_dev_run=is_test_run())
+
 beta = 4
-print(len(dataloader))
-for i in range(14):
-    #beta *= 0.8
-    cfg=BetaVae.cfg(optimizer='adam', optimizer_kwargs=dict(lr=1e-3), loss_reduction='mean_sum', beta=beta)
-    module: pl.LightningModule = BetaVae(module._model, cfg)
-    trainer = pl.Trainer(logger=False, checkpoint_callback=False, max_steps=1000, fast_dev_run=is_test_run())
-    trainer.fit(module, dataloader[1])
-    print("train", i+1, "finish, β = ", beta)
-
-    get_repr = lambda x: module.encode(x.to(module.device))
-
-    a_results = {
-            **metric_dci(dataset, get_repr, num_train=10 if is_test_run() else 1000, num_test=5 if is_test_run() else 500, boost_mode='sklearn'),
-            **metric_mig(dataset, get_repr, num_train=20 if is_test_run() else 2000),
-            **metric_sap(dataset, get_repr),
-        }
-    print("eval", i+1, ":")
-    print(a_results) 
-'''
-trainer.fit(module, dataloader[0])
-
-print("train1 finish")
-
-get_repr = lambda x: module.encode(x.to(module.device))
-
-a_results = {
-        **metric_dci(dataset, get_repr, num_train=10 if is_test_run() else 1000, num_test=5 if is_test_run() else 500, boost_mode='sklearn'),
-        **metric_mig(dataset, get_repr, num_train=20 if is_test_run() else 2000),
-        **metric_sap(dataset, get_repr),
-    }
-print("eval1:")
-print(a_results) 
-
-
-cfg=BetaVae.cfg(optimizer='adam', optimizer_kwargs=dict(lr=1e-3), loss_reduction='mean_sum', beta=4)
+#print(len(dataloader))
 module: pl.LightningModule = BetaVae(module._model, cfg)
-trainer = pl.Trainer(logger=False, checkpoint_callback=False, max_steps=1000, fast_dev_run=is_test_run())
-trainer.fit(module, dataloader[1])
-print("train2 finish")
-
+#trainer = pl.Trainer(logger=False, checkpoint_callback=False, max_steps=1000, fast_dev_run=is_test_run())
+trainer.fit(module, dataloader[i])
 get_repr = lambda x: module.encode(x.to(module.device))
 
 a_results = {
@@ -82,7 +58,9 @@ a_results = {
         **metric_mig(dataset, get_repr, num_train=20 if is_test_run() else 2000),
         **metric_sap(dataset, get_repr),
     }
-print("eval2:")
+print("eval", i+1, ":")
 print(a_results) 
-'''
+
 # TODO 把训练过程写成loop
+
+
