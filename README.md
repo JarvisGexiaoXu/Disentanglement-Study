@@ -1,4 +1,4 @@
-# { Project Title }
+# { Disentanglement Study }
 
 { Short description }
 
