@@ -5,8 +5,7 @@ trainingcallback.py
 # DONE have control over beta value during the training process
 
 metricValidation.py
-# TODO ASAP validate metrics between beta-VAE and VAE
-
+# DONE validate metrics between beta-VAE and VAE
 VAE: 
 [07:11<00:00,  1.36it/s, loss=51.10, recon_loss=51.10, aug_loss=0.000]
 {'dci.informativeness_train': 0.9625, 'dci.informativeness_test': 0.33999999999999997, 'dci.disentanglement': 0.01443064446343698, 'dci.completeness': 0.019299076551980043, 'mig.discrete_score': 0.012078071262848556, 'sap.score': 0.007599999999999997}
