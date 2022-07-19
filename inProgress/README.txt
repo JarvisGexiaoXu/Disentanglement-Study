@@ -25,6 +25,7 @@ adaGVAE:
 # DONE imshow in metricValidation.py
 
 # TODO try a different dataset from disent library.
+  # DONE loading is working... now running tests over different models.
 
 # TODO set up experiments
   # TODO original training as control group and 
