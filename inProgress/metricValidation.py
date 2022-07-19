@@ -25,18 +25,18 @@ def AE():
     )
     return module
 
-def BetaVAE():
+def BetaVAE(beta):
     # create the pytorch lightning system
     module: pl.LightningModule = BetaVae(
         model=AutoEncoder(
             encoder=EncoderConv64(x_shape=data.x_shape, z_size=6, z_multiplier=2),
             decoder=DecoderConv64(x_shape=data.x_shape, z_size=6),
         ),
-        cfg=BetaVae.cfg(optimizer='adam', optimizer_kwargs=dict(lr=1e-3), loss_reduction='mean_sum', beta=4)
+        cfg=BetaVae.cfg(optimizer='adam', optimizer_kwargs=dict(lr=1e-3), loss_reduction='mean_sum', beta=beta)
     )
     return module
 
-def AdaGVAE():
+def AdaGVAE(beta):
     # create the pytorch lightning system
     module: pl.LightningModule = AdaVae(
         model=AutoEncoder(
@@ -45,7 +45,7 @@ def AdaGVAE():
         ),
         cfg=AdaVae.cfg(
             optimizer='adam', optimizer_kwargs=dict(lr=1e-3),
-            loss_reduction='mean_sum', beta=4, ada_average_mode='gvae', ada_thresh_mode='kl',
+            loss_reduction='mean_sum', beta=beta, ada_average_mode='gvae', ada_thresh_mode='kl',
         )
     )
     return module
@@ -58,7 +58,7 @@ data = XYObjectData()
 dataset = DisentDataset(data, transform=ToImgTensorF32()) 
 dataloader = DataLoader(dataset=dataset, batch_size=128, shuffle=True)
 
-module = BetaVAE()
+module = BetaVAE(beta=4)
 # train the model
 trainer = pl.Trainer(logger=False, max_epochs=1, checkpoint_callback=False, fast_dev_run=is_test_run())
 trainer.fit(module, dataloader)
