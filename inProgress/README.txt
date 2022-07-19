@@ -22,7 +22,7 @@ adaGVAE:
 [14:06<00:00,  1.44s/it, loss=85.60, recon_loss=85.60, reg_loss=2.68e-5, aug_loss=0.000] 
 {'dci.informativeness_train': 0.9655, 'dci.informativeness_test': 0.17400000000000002, 'dci.disentanglement': 0.004920799188874761, 'dci.completeness': 0.008473833324953939, 'mig.discrete_score': 0.0128798563551259, 'sap.score': 0.0}
 
-# TODO imshow
+# DONE imshow in metricValidation.py
 
 # TODO set up experiments
   # TODO original training as control group and 
