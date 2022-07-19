@@ -24,6 +24,8 @@ adaGVAE:
 
 # DONE imshow in metricValidation.py
 
+# TODO try a different dataset from disent library.
+
 # TODO set up experiments
   # TODO original training as control group and 
     # For Beta Vae and AdaGVae, Beta = [0, 1, 2, 3, 4]
