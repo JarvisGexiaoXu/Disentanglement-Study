@@ -36,4 +36,4 @@ adaGVAE:
   # TODO Delay, until all the early experiments have conclusions. 
     # control metrics, make generative quality and disentanglement stay in certain range.    
     
-# TODO ASAP write evaluation metrics into hooks.
+
