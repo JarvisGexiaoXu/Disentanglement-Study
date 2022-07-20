@@ -24,7 +24,8 @@ adaGVAE:
 
 # DONE imshow in metricValidation.py
 
-# TODO try a different dataset from disent library.
+# DONE try a different dataset from disent library.
+  # DONE XYObjectData, and Shapes3dData can be used for training.
   # DONE loading is working... now running tests over different models.
 
 # TODO set up experiments
