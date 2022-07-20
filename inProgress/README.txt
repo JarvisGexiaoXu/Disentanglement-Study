@@ -39,5 +39,6 @@ adaGVAE:
     # train disentanglement upto certain point, than train generative ability.
   # TODO Delay, until all the early experiments have conclusions. 
     # control metrics, make generative quality and disentanglement stay in certain range.    
-    
 
+# TODO move writings to overleaf. 
+  # TODO ASAP set up overleaf.
