@@ -3,7 +3,7 @@
 { Short description }
 
 ## Usage
-rough writings for thesis, and stats
+rough copy for thesis, and stats
 https://docs.google.com/document/d/1PTROkYoJQ6f-PrLWsHxbb0aunci0NGc0OWPPdlNa3Vs/edit?usp=sharing
 
 ## Requirements
