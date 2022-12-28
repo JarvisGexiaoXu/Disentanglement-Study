@@ -1,6 +1,7 @@
 # { Disentanglement Study }
 
 { Short description }
+Under construction...
 
 ## Usage
 rough copy for thesis, and stats
@@ -9,6 +10,3 @@ https://docs.google.com/document/d/1PTROkYoJQ6f-PrLWsHxbb0aunci0NGc0OWPPdlNa3Vs/
 ## Requirements
 
 ## Citing This Work
-https://disent.dontpanic.sh/en/latest/
-
-https://pypi.org/project/disent/0.4.0/
