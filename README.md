@@ -5,7 +5,8 @@
 1. [Overview](#overview)
 2. [Objective](#objective)
 3. [Experiment](#experiment)
-4. [Future Work](#future-work)
+4. [Results](#results)
+5. [Future Work](#future-work)
 
 ### Overview
 ***
@@ -20,6 +21,11 @@ Assume in an unsupervised manner, the learning process of a generative model can
 ## Experiment
 ***
 We employ $\beta$-VAE as the main experimental object. The training experiments are performed over three image-based disentanglement domains. These specifically generated domains provide knowledge of their underlying features which facilitates the use of disentanglement metrics and also makes the other tunable parts of the experiment to be more controllable. We use reconstruction loss to evaluate generation quality, and use three different disentanglement metrics to evaluate the outcome of disentanglement training.
+
+## Results
+***
+### Screenshot
+<img src="./Experiment Code/XYObject Summary.jpg" width=700>
 
 ## Future Work
 ***
