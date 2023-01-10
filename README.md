@@ -27,6 +27,10 @@ We employ $\beta$-VAE as the main experimental object. The training experiments 
 ### Screenshot
 <img src="./Experiment Code/XYObject Summary.jpg" width=700>
 
+<img src="./Experiment Code/Shape3d Summary.jpg" width=700>
+
+<img src="./Experiment Code/dSprites Summary.jpg" width=700>
+
 ## Future Work
 ***
 During the experimental process, we observed that if we tune the $\beta$ value before the reconstruction loss fully converges, the model can have some good training outcomes beyond expectations. But this does not seem to be a common phenomenon. In the future, we want to explore more on this issue more and will need to conduct a large number of experiments to verify the feasibility of this conjecture. Further, this empirical study is limited to $\beta$-VAE. Whether the conclusion can be generalized to other disentanglement learning strategies still needs to be verified by large-scale experiments on multiple generative models.
