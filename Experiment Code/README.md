@@ -7,8 +7,4 @@ disent==0.4.0
 
 wandb==0.13.2
 ## Libraries to get visualized outcome
-pillow
-
-torchvision
-
-matplotlib
+pillow, torchvision, matplotlib
