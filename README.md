@@ -11,6 +11,7 @@
 ### Overview
 ***
 There exist many unsupervised or weakly-supervised generative approaches, and they use similar techniques to manipulate some hyper-parameters to modulate the learning constraints to the training objective. For example, for the modified variant of variational autoencoder (VAE, an artificial neural network architectural probabilistic graphical model), $\beta$-VAE, introduces the tunable parameter $\beta$, which is used to emphasize the learning of disentangled representations. With $\beta$ = 1, $\beta$-VAE is considered as a regular VAE, and with $\beta$ $>$ 1, the model is pushed to learn the disentangled representations if there exist some underlying independent variations in the training data. The existing work has already done experiments on different $\beta$ values, and all of them have pointed out that, a big $\beta$ may create trade-offs between generation quality and the extent of disentanglement. Therefore the problem is raised, by modifying such hyper-parameters during the training process, would that be possible to minimize this kind of trade-off.
+
 ### Screenshot
 <img src="./Experiment Code/Image collection.jpg" width=700 height=700>
 
@@ -28,12 +29,14 @@ The following tables summarize experiments for each dataset which computes the m
 
 For the first domain, the models with training from $\beta$ = 1 to 2 have the best overall training result, the reconstruction loss is significantly smaller than the model trained with $\beta$ = 2, and it has the best disentanglement evaluations. A similar situation also appeared for the second domain. The models with $\beta$ = 1 to 10 have the best performance in disentanglement evaluations, and compared to the models with $\beta$ = 10, the reconstruction loss is reduced from 80 to 50. For the third domain, our experimental groups match the top ones in the control group in disentanglement evaluations and reduce reconstruction loss significantly.
 The experimental results illustrate that when the training time is fixed, the disentanglement training of the experimental groups is generally better than the control groups or at least matches the best ones in the control group. Compared to simply a large $\beta$, the training method of learning the domain first which $\beta$ = 1, then training for disentanglement which $\beta$ becomes a large number greater than 1. This approach can significantly reduce the reconstruction loss while maintaining a solid disentanglement score.
+
 ### Screenshot
 <img src="./Experiment Code/XYObject Summary.jpg" width=700>
 
 <img src="./Experiment Code/Shape3d Summary.jpg" width=700>
 
 <img src="./Experiment Code/dSprites Summary.jpg" width=700>
+
 ### Link to the report of this repository
 TBD...
 
