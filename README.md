@@ -1,14 +1,17 @@
+# Empirical Study on Exploring the Impact of Controlling the Objective on Disentanglement Learning During Training
+
+
 ## Table of Contents
-1. [General Info](#general-info)
+1. [Overview](#overview)
 2. [Technologies](#technologies)
 3. [Installation](#installation)
 4. [Collaboration](#collaboration)
 5. [FAQs](#faqs)
-### General Info
+### Overview
 ***
-Write down general information about your project. It is a good idea to always put a project status in the readme file. This is where you can add it. 
+There exist many unsupervised or weakly-supervised generative approaches, and they use similar techniques to manipulate some hyper-parameters to modulate the learning constraints to the training objective. For example, for the modified variant of variational autoencoder (VAE, an artificial neural network architectural probabilistic graphical model), $\beta$-VAE, introduces the tunable parameter $\beta$, which is used to emphasize the learning of disentangled representations. With $\beta$ = 1, $\beta$-VAE is considered as a regular VAE, and with $\beta$ $>$ 1, the model is pushed to learn the disentangled representations if there exist some underlying independent variations in the training data. The existing work has already done experiments on different $\beta$ values, and all of them have pointed out that, a big $\beta$ may create trade-offs between generation quality and the extent of disentanglement. Therefore the problem is raised, by modifying such hyper-parameters during the training process, would that be possible to minimize this kind of trade-off.
 ### Screenshot
-![Image text](https://www.united-internet.de/fileadmin/user_upload/Brands/Downloads/Logo_IONOS_by.jpg)
+<img src="./Experiment Code/Image collection.jpg" width=700 height=700>
 ## Technologies
 ***
 A list of technologies used within the project:
