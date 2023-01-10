@@ -24,6 +24,7 @@ We employ $\beta$-VAE as the main experimental object. The training experiments 
 
 ## Results
 ***
+The following tables summarize experiments for each dataset which computes the mean for each experiment case. For the control groups, we gradually increase $\beta$ from 1 until the mode collapse or the generated image is too fuzzy to be visually recognizable.
 ### Screenshot
 <img src="./Experiment Code/XYObject Summary.jpg" width=700>
 
