@@ -34,23 +34,13 @@ The experimental results illustrate that when the training time is fixed, the di
 <img src="./Experiment Code/Shape3d Summary.jpg" width=700>
 
 <img src="./Experiment Code/dSprites Summary.jpg" width=700>
+### Link to the report of this repository
+TBD...
 
 ## Future Work
 ***
 During the experimental process, we observed that if we tune the $\beta$ value before the reconstruction loss fully converges, the model can have some good training outcomes beyond expectations. But this does not seem to be a common phenomenon. In the future, we want to explore more on this issue more and will need to conduct a large number of experiments to verify the feasibility of this conjecture. Further, this empirical study is limited to $\beta$-VAE. Whether the conclusion can be generalized to other disentanglement learning strategies still needs to be verified by large-scale experiments on multiple generative models.
+
 ## FAQs
 ***
-A list of frequently asked questions
-1. **This is a question in bold**
-Answer to the first question with _italic words_. 
-2. __Second question in bold__ 
-To answer this question, we use an unordered list:
-* First point
-* Second Point
-* Third point
-3. **Third question in bold**
-Answer to the third question with *italic words*.
-4. **Fourth question in bold**
-| Headline 1 in the tablehead | Headline 2 in the tablehead | Headline 3 in the tablehead |
-|:--------------|:-------------:|--------------:|
-| text-align left | text-align center | text-align right |
+TBD...
