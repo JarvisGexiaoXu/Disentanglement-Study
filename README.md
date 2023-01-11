@@ -38,7 +38,7 @@ The experimental results illustrate that when the training time is fixed, the di
 <img src="./Experiment Code/dSprites Summary.jpg" width=700>
 
 ### Link to the report of this project
-TBD...
+[Empirical Study on Exploring the Impact of Controlling the Objective on Disentanglement Learning During Training](https://www.overleaf.com/read/xrxkdyjhmvqv)
 
 ## Future Work
 ***
