@@ -46,4 +46,4 @@ During the experimental process, we observed that if we tune the $\beta$ value b
 
 ## FAQs
 ***
-TBD...
+If there are any questions, please contact me through email at 15gx3@queensu.ca
